@@ -1,18 +1,25 @@
 <template>
-  <div class="product">
-    <h4>{{ name }}</h4>
-    <p class="product__description">
-      {{ description }}
-    </p>
-  </div>
+  <v-card>
+    <v-card-title primary-title>
+      <div>
+        <div class="headline">{{ name }}</div>
+        <span class="grey--text">{{ price }} euros</span>
+      </div>
+    </v-card-title>
+    <v-card-actions>
+      <v-btn flat color="primary">Add</v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
 export default {
   name: 'Product',
   props: {
+    id: String,
     name: String,
-    description: String,
+    price: Number,
+    weight: Number,
   },
 };
 </script>
