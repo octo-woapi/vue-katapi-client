@@ -3,7 +3,7 @@
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md8>
         <ul>
-          <li v-for="product of products" :key="product.id">
+          <li v-for="(product, i) of $store.state.products" :key="i">
             <product v-bind="product" />
           </li>
         </ul>
@@ -13,18 +13,15 @@
 </template>
 
 <script>
-import Product from '../components/Product.vue';
-import productService from '../services/product-service';
+import Product from '@/components/Product.vue';
 
 export default {
   components: {
     Product,
   },
-  data: () => ({
-    products: [],
-  }),
-  async mounted() {
-    this.products = await productService.listProducts();
+  computed: {},
+  created() {
+    return this.$store.dispatch('fetchProducts');
   },
 };
 </script>
