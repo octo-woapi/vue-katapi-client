@@ -3,7 +3,7 @@
     <v-list-tile v-for="(product, i) in cart" :key="i">
       <v-list-tile-content>
         <v-list-tile-title>{{ product.name }}</v-list-tile-title>
-        <v-list-tile-sub-title>{{ product.price }}</v-list-tile-sub-title>
+        <v-list-tile-sub-title>{{ product.price }} euros</v-list-tile-sub-title>
       </v-list-tile-content>
       <v-list-tile-action>
         <v-btn icon @click="removeFromCart(product)">
