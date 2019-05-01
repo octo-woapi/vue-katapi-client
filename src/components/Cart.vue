@@ -22,10 +22,17 @@
 
       <v-divider></v-divider>
 
-      <template v-if="$store.state.cart && $store.state.cart.length">
+      <template v-if="cart && cart.length">
         <v-list>
-          <v-list-tile v-for="(product, i) in $store.state.cart" :key="i">
-            <v-list-tile-title>{{ product.name }}</v-list-tile-title>
+          <v-list-tile v-for="(product, i) in cart" :key="i">
+            <v-list-tile-content>
+              <v-list-tile-title>{{ product.name }}</v-list-tile-title>
+            </v-list-tile-content>
+            <v-list-tile-action>
+              <v-btn icon>
+                <v-icon>delete</v-icon>
+              </v-btn>
+            </v-list-tile-action>
           </v-list-tile>
         </v-list>
       </template>
@@ -35,13 +42,19 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn flat @click="menu = false">Cancel</v-btn>
-        <v-btn color="primary" flat @click="menu = false">Save</v-btn>
+        <v-btn flat>Empty</v-btn>
+        <v-btn color="primary" flat>Checkout</v-btn>
       </v-card-actions>
     </v-card>
   </v-menu>
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    cart() {
+      return this.$store.state.cart;
+    },
+  },
+};
 </script>

@@ -4,7 +4,7 @@
       <v-flex xs12 sm8 md8>
         <ul>
           <li v-for="(product, i) of $store.state.products" :key="i">
-            <product v-bind="product" />
+            <product v-bind="product" @add="addToCart(product)" />
           </li>
         </ul>
       </v-flex>
@@ -14,14 +14,19 @@
 
 <script>
 import Product from '@/components/Product.vue';
+import { ADD_TO_CART } from '@/mutation-types';
 
 export default {
   components: {
     Product,
   },
-  computed: {},
   created() {
     return this.$store.dispatch('fetchProducts');
+  },
+  methods: {
+    addToCart(product) {
+      return this.$store.commit(ADD_TO_CART, product);
+    },
   },
 };
 </script>
