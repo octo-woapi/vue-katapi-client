@@ -20,29 +20,38 @@
         </v-list-tile>
       </v-list>
 
-      <v-divider></v-divider>
-
       <template v-if="cart && cart.length">
-        <v-list>
+        <v-divider></v-divider>
+
+        <v-list two-line>
           <v-list-tile v-for="(product, i) in cart" :key="i">
             <v-list-tile-content>
               <v-list-tile-title>{{ product.name }}</v-list-tile-title>
+              <v-list-tile-sub-title>{{ product.price }}</v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action>
-              <v-btn icon>
+              <v-btn icon @click="removeFromCart(product)">
                 <v-icon>delete</v-icon>
               </v-btn>
             </v-list-tile-action>
           </v-list-tile>
         </v-list>
       </template>
-      <template v-else>
-        <p>You have no product yet.</p>
-      </template>
+
+      <v-divider></v-divider>
+
+      <!-- Total -->
+      <div>
+        <v-subheader>Total</v-subheader>
+        <div class="total">
+          <span>{{ cart.length }} products</span>
+          <span>{{ totalPrice }} euros</span>
+        </div>
+      </div>
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn flat>Empty</v-btn>
+        <v-btn flat @click="clearCart">Empty</v-btn>
         <v-btn color="primary" flat>Checkout</v-btn>
       </v-card-actions>
     </v-card>
@@ -50,11 +59,32 @@
 </template>
 
 <script>
+import { CLEAR_CART, REMOVE_FROM_CART } from '@/mutation-types';
+
 export default {
   computed: {
     cart() {
       return this.$store.state.cart;
     },
+    totalPrice() {
+      return this.cart.map(product => product.price).reduce((acc, price) => acc + price, 0);
+    },
+  },
+  methods: {
+    clearCart() {
+      this.$store.commit(CLEAR_CART);
+    },
+    removeFromCart(product) {
+      this.$store.commit(REMOVE_FROM_CART, product);
+    },
   },
 };
 </script>
+
+<style scoped lang="scss">
+.total {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+</style>
