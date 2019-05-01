@@ -1,29 +1,15 @@
 export class ProductService {
-  constructor() {
-    this.products = [
-      {
-        id: '123-456-789-012',
-        name: 'Robe',
-        price: 133.7,
-        weight: 0.2,
-      },
-      {
-        id: '123-789-789-012',
-        name: 'T-shirt',
-        price: 42.99,
-        weight: 0.2,
-      },
-    ];
+  constructor(http) {
+    this.http = http;
   }
 
   async listProducts() {
-    return this.products;
+    return this.http.get('products').json();
   }
 
   async getProduct(id) {
-    return this.products.find(product => product.id === id);
+    return this.http.get(`products/${id}`).json();
   }
 }
 
-// TODO: inject ProductService class instead of constructing him before
-export default new ProductService();
+export default ProductService;

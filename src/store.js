@@ -1,3 +1,4 @@
+import ky from 'ky';
 import Vue from 'vue';
 import Vuex from 'vuex';
 
@@ -9,7 +10,9 @@ import { ProductService } from '@/services/product-service';
 // Register Vuex
 Vue.use(Vuex);
 
-const productService = new ProductService();
+const productService = new ProductService(ky.extend({
+  prefixUrl: 'http://localhost:3000',
+}));
 
 export function initState() {
   return {
@@ -23,6 +26,9 @@ export default new Vuex.Store({
   actions: {
     async fetchProducts({ commit }) {
       const products = await productService.listProducts();
+      if (products && products.length > 0) {
+        commit(CLEAR_CART);
+      }
       products.forEach((product) => {
         commit(ADD_PRODUCT, product);
       });
