@@ -33,11 +33,15 @@ export default new Vuex.Store({
       commit(SET_PRODUCTS, products);
     },
     async order({ commit, state }) {
-      const order = await orderService.createOrder(state.cart);
-      commit(CREATE_ORDER, order);
+      const location = await orderService.createOrder(state.cart);
+      commit(CLEAR_CART);
+      return location;
     },
     async pay({ commit }, orderId) {
       // const order = await orderService.update()
+    },
+    async fetchOrder(_, id) {
+      return orderService.getOrder(id);
     },
   },
   mutations: {
@@ -56,8 +60,5 @@ export default new Vuex.Store({
         state.cart.splice(i, 1);
       }
     },
-    [CREATE_ORDER](state, order) {
-      state.orders.push(order);
-    }
   },
 });

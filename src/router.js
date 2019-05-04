@@ -19,5 +19,10 @@ export default new Router({
       name: 'checkout',
       component: () => import(/* webpackChunkName: 'checkout' */ '@/views/Checkout'),
     },
+    {
+      path: '/orders/:id',
+      name: 'order',
+      component: () => import(/* webpackChunkName: 'order' */ '@/views/ViewOrder.vue'),
+    },
   ],
 });

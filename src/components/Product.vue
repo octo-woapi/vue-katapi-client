@@ -16,7 +16,7 @@
 export default {
   name: 'Product',
   props: {
-    id: String,
+    id: [String, Number],
     name: String,
     price: Number,
     weight: Number,

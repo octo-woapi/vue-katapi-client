@@ -13,7 +13,11 @@ export class OrderService {
         product_list: products.map(p => p.id),
       },
     });
-    console.log(res.headers);
+    return res.headers.get('location');
+  }
+
+  async getOrder(id) {
+    return this.http.get(`orders/${id}`).json();
   }
 }
 
