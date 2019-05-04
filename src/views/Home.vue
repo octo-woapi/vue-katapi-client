@@ -1,9 +1,11 @@
 <template>
-  <ul>
-    <li v-for="(product, i) of $store.state.products" :key="i">
-      <product v-bind="product" @add="addToCart(product)" />
-    </li>
-  </ul>
+  <v-container fluid grid-list-lg>
+    <v-layout row wrap>
+      <v-flex xs12 sm6 md4 xl3 v-for="(product, i) of $store.state.products" :key="i">
+        <product v-bind="product" @add="addToCart(product)" />
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -24,17 +26,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-ul {
-  list-style: none;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-}
-
-li {
-  margin: 8px;
-  max-width: 128px;
-}
-</style>
