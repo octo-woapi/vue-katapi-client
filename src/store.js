@@ -4,7 +4,11 @@ import Vuex from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 
 import {
-  SET_PRODUCTS, ADD_TO_CART, CLEAR_CART, REMOVE_FROM_CART, CREATE_ORDER,
+  SET_PRODUCTS,
+  ADD_TO_CART,
+  CLEAR_CART,
+  REMOVE_FROM_CART,
+  SET_ORDER, SET_ORDERS,
 } from '@/mutation-types';
 import { ProductService } from '@/services/product-service';
 import { OrderService } from '@/services/order-service';
@@ -21,12 +25,16 @@ export function initState() {
     cart: [],
     products: [],
     orders: [],
+    order: null,
   };
 }
 
 export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: initState(),
+  getters: {
+    orders: state => status => (status === 'all' ? state.orders : state.orders.filter(order => order.status === status)),
+  },
   actions: {
     async fetchProducts({ commit }) {
       const products = await productService.listProducts();
@@ -37,16 +45,38 @@ export default new Vuex.Store({
       commit(CLEAR_CART);
       return location;
     },
-    async pay({ commit }, orderId) {
-      // const order = await orderService.update()
+    async cancel({ commit }, order) {
+      await orderService.cancelOrder(order);
+      commit(SET_ORDER, {
+        ...order,
+        status: 'cancelled',
+      });
     },
-    async fetchOrder(_, id) {
-      return orderService.getOrder(id);
+    async pay({ commit }, order) {
+      await orderService.payOrder(order);
+      commit(SET_ORDER, {
+        ...order,
+        status: 'paid',
+      });
+    },
+    async fetchOrders({ commit }) {
+      const orders = await orderService.listOrders();
+      commit(SET_ORDERS, orders);
+    },
+    async fetchOrder({ commit }, id) {
+      const order = await orderService.getOrder(id);
+      commit(SET_ORDER, order);
     },
   },
   mutations: {
     [SET_PRODUCTS](state, products) {
       state.products = products;
+    },
+    [SET_ORDERS](state, orders) {
+      state.orders = orders;
+    },
+    [SET_ORDER](state, order) {
+      state.order = order;
     },
     [ADD_TO_CART](state, product) {
       state.cart.push(product);

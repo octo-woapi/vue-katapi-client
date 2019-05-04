@@ -19,6 +19,22 @@ export class OrderService {
   async getOrder(id) {
     return this.http.get(`orders/${id}`).json();
   }
+
+  async payOrder(order) {
+    await this.http.put(`orders/${order.id}/status`, {
+      json: {
+        status: 'paid',
+      },
+    });
+  }
+
+  async cancelOrder(order) {
+    await this.http.put(`orders/${order.id}/status`, {
+      json: {
+        status: 'cancelled',
+      },
+    });
+  }
 }
 
 export default OrderService;

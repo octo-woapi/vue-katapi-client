@@ -1,7 +1,13 @@
 <template>
   <v-toolbar color="elevation-0 transparent">
+    <v-btn icon to="/">
+      <v-icon>home</v-icon>
+    </v-btn>
     <v-spacer></v-spacer>
     <Cart />
+    <v-btn icon to="/orders">
+      <v-icon>receipt</v-icon>
+    </v-btn>
   </v-toolbar>
 </template>
 

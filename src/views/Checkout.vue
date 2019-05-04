@@ -1,24 +1,16 @@
 <template>
-  <v-container fluid fill-height>
-    <v-layout align-center justify-center>
-      <v-flex xs12 sm8 md4>
-        <template v-if="$store.state.cart && $store.state.cart.length">
-          <product-list />
-          <total />
-          <footer>
-            <v-btn color="primary" @click="order">
-              Order now
-            </v-btn>
-          </footer>
-        </template>
-        <template v-else>
-          <p>
-            There is no product in your cart yet. Add some <router-link to="/">here</router-link>.
-          </p>
-        </template>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <div v-if="$store.state.cart && $store.state.cart.length">
+    <product-list />
+    <total />
+    <footer>
+      <v-btn color="primary" @click="order">
+        Order now
+      </v-btn>
+    </footer>
+  </div>
+  <div v-else>
+    <p>There is no product in your cart yet. Add some <router-link to="/">here</router-link>.</p>
+  </div>
 </template>
 
 <script>

@@ -1,15 +1,9 @@
 <template>
-  <v-container fluid fill-height>
-    <v-layout align-center justify-center>
-      <v-flex xs12 sm8 md8>
-        <ul>
-          <li v-for="(product, i) of $store.state.products" :key="i">
-            <product v-bind="product" @add="addToCart(product)" />
-          </li>
-        </ul>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <ul>
+    <li v-for="(product, i) of $store.state.products" :key="i">
+      <product v-bind="product" @add="addToCart(product)" />
+    </li>
+  </ul>
 </template>
 
 <script>
