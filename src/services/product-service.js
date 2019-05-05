@@ -3,8 +3,8 @@ export class ProductService {
     this.http = http;
   }
 
-  async listProducts() {
-    return this.http.get('products').json();
+  async listProducts(searchParams) {
+    return this.http.get('products', { searchParams }).json();
   }
 
   async getProduct(id) {

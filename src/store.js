@@ -36,8 +36,10 @@ export default new Vuex.Store({
     orders: state => status => (status === 'all' ? state.orders : state.orders.filter(order => order.status === status)),
   },
   actions: {
-    async fetchProducts({ commit }) {
-      const products = await productService.listProducts();
+    async fetchProducts({ commit }, sort) {
+      const searchParams = {};
+      if (sort != null) searchParams.sort = sort;
+      const products = await productService.listProducts(searchParams);
       commit(SET_PRODUCTS, products);
     },
     async order({ commit, state }) {
